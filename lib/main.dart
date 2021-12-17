@@ -10,26 +10,33 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'MIX Samples',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
+      home: Scaffold(
+        body: Center(
+          child: BasicMix(),
+        ),
+      ),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({Key? key}) : super(key: key);
+class BasicMix extends StatelessWidget {
+  const BasicMix({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: ComponentWithoutMix(),
-      ),
+    final mix = Mix(
+      height(150),
+      width(150),
+      rounded(20),
+      elevation(8),
+      bgColor(Colors.blue),
+    );
+
+    return Box(
+      mix: mix,
     );
   }
 }
@@ -51,8 +58,7 @@ class ComponentWithMix extends StatelessWidget {
         size: 20,
       ),
     );
-    return Pressable(
-      onPressed: () {},
+    return Box(
       mix: style,
       child: const TextMix(
         'Welcome to MIX',
