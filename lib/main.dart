@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
+import 'package:mix_design_samples/custom_mix.dart';
 
 void main() {
   runApp(const MyApp());
@@ -27,14 +28,6 @@ class BasicMix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final mix = Mix(
-      height(150),
-      width(150),
-      rounded(20),
-      elevation(8),
-      bgColor(Colors.blue),
-    );
-
     return Box(
       mix: mix,
     );
