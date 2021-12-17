@@ -34,6 +34,17 @@ class BasicMix extends StatelessWidget {
   }
 }
 
+class BasicTextMix extends StatelessWidget {
+  BasicTextMix({Key? key}) : super(key: key);
+
+  final style = Mix(titleCase());
+
+  @override
+  Widget build(BuildContext context) {
+    return TextMix('design system', mix: style);
+  }
+}
+
 class ComponentWithMix extends StatelessWidget {
   const ComponentWithMix({Key? key}) : super(key: key);
 
