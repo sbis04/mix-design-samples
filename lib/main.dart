@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mix_design_samples/widgets/dynamic/dynamic_mix.dart';
 
 import 'widgets/animated/animated_pressable_sample.dart';
+import 'widgets/basics/design_tokens_sample.dart';
 import 'widgets/basics/pressable_sample.dart';
 
 void main() {
@@ -13,12 +14,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'MIX Samples',
+      theme: ThemeData(
+        colorScheme: ThemeData.light().colorScheme.copyWith(
+              primary: Colors.orange,
+            ),
+      ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
+      home: const Scaffold(
         body: Center(
-          child: AnimatedPressableSample(),
+          child: DesignTokensSample(),
         ),
       ),
     );
