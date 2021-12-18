@@ -11,12 +11,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'MIX Samples',
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: Center(
-          child: BasicMix(),
+          child: VariantTextMix(),
         ),
       ),
     );
@@ -34,14 +34,70 @@ class BasicMix extends StatelessWidget {
   }
 }
 
-class BasicTextMix extends StatelessWidget {
-  BasicTextMix({Key? key}) : super(key: key);
+const myStyle = Var('myStyle');
 
-  final style = Mix(titleCase());
+Mix get style => Mix(
+      titleCase(),
+      myStyle(
+        font(
+          color: Colors.red,
+          size: 24.0,
+        ),
+      ),
+    );
+
+class VariantTextMix extends StatelessWidget {
+  const VariantTextMix({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return TextMix('design system', mix: style);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        TextMix(
+          'design system',
+          mix: style,
+        ),
+        TextMix(
+          'design system',
+          mix: style,
+          variant: myStyle,
+        ),
+      ],
+    );
+  }
+}
+
+Mix get inbuiltVariantMix => Mix(
+      rounded(35),
+      elevation(8),
+      width(100),
+      height(50),
+      bgColor(Colors.redAccent),
+      border(
+        color: Colors.redAccent,
+        width: 3,
+      ),
+      hover(
+        border(color: Colors.greenAccent),
+      ),
+      press(
+        bgColor(Colors.greenAccent),
+        border(color: Colors.redAccent),
+        elevation(1),
+      ),
+    );
+
+class VariantMix extends StatelessWidget {
+  const VariantMix({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      mix: inbuiltVariantMix,
+      onPressed: () {},
+      child: const Box(),
+    );
   }
 }
 

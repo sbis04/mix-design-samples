@@ -11,3 +11,5 @@ Mix get mix => Mix(
     );
 
 
+
+Mix get customVarient => Mix();
