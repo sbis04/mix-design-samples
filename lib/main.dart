@@ -29,20 +29,24 @@ class SampleSelector extends StatelessWidget {
   final SampleSelectorFunc fn;
   const SampleSelector(this.fn, {Key? key}) : 
                     super(key: key);
-  Widget mkListTile<T>(BuildContext context, String title) =>
+  Widget mkListTile(BuildContext context, String title) =>
     Container(
       decoration: const BoxDecoration(border: Border(bottom: BorderSide(color:Colors.white38, width:1.0))),
-      child: ListTile(
-            dense: true,
-            title: Text(title,
-              style: const TextStyle(color:Colors.white70, fontSize:16),
-              textAlign: TextAlign.center
+      child: Material(
+        color: Colors.transparent,
+        child: ListTile(
+              hoverColor: Theme.of(context).primaryColor,
+              dense: true,
+              title: Text(title,
+                style: const TextStyle(color:Colors.white70, fontSize:16),
+                textAlign: TextAlign.center
+              ),
+              onTap: () {
+                Navigator.pop(context);
+                fn(title);
+              }
             ),
-            onTap: () {
-              Navigator.pop(context);
-              fn(title);
-            }
-          ),
+      ),
     );
 
   @override
