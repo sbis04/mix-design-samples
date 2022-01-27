@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mix_design_samples/sample_code.dart';
 import 'package:mix/mix.dart';
 import 'package:mix_design_samples/widgets/dynamic/dynamic_mix.dart';
 
@@ -17,62 +18,52 @@ void main() {
 
 typedef SampleSelectorFunc = void Function(String sampleName);
 
-const String BASIC_MIX = "Basic Mix",
-             BOX_SAMPLE = "Box Sample",
-             FLEXBOX_SAMPLE = "Flexbox Sample",
-             ICONMIX_SAMPLE = "IconMix Sample",
-             PRESSABLE_SAMPLE = "Pressable Sample",
-             TEXTMIX_SAMPLE = "TextMix Sample",
-             DESIGN_TOKENS_SAMPLE = "Design Tokens Sample";
-
 class SampleSelector extends StatelessWidget {
   final SampleSelectorFunc fn;
-  const SampleSelector(this.fn, {Key? key}) : 
-                    super(key: key);
-  Widget mkListTile(BuildContext context, String title) =>
-    Container(
-      decoration: const BoxDecoration(border: Border(bottom: BorderSide(color:Colors.white38, width:1.0))),
-      child: Material(
-        color: Colors.transparent,
-        child: ListTile(
+  const SampleSelector(this.fn, {Key? key}) : super(key: key);
+  Widget mkListTile(BuildContext context, String title) => Container(
+        decoration: const BoxDecoration(
+            border:
+                Border(bottom: BorderSide(color: Colors.white38, width: 1.0))),
+        child: Material(
+          color: Colors.transparent,
+          child: ListTile(
               hoverColor: Theme.of(context).primaryColor,
               dense: true,
               title: Text(title,
-                style: const TextStyle(color:Colors.white70, fontSize:16),
-                textAlign: TextAlign.center
-              ),
+                  style: const TextStyle(color: Colors.white70, fontSize: 16),
+                  textAlign: TextAlign.center),
               onTap: () {
                 Navigator.pop(context);
                 fn(title);
-              }
-            ),
-      ),
-    );
+              }),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: const BoxDecoration(
-        color: Colors.black,
-        border: Border(bottom: BorderSide(width: 2.0, color:Colors.white))),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              mkListTile(context, BASIC_MIX),
-              mkListTile(context, BOX_SAMPLE),
-              mkListTile(context, FLEXBOX_SAMPLE),
-              mkListTile(context, ICONMIX_SAMPLE),
-              mkListTile(context, PRESSABLE_SAMPLE),
-              mkListTile(context, TEXTMIX_SAMPLE),
-              mkListTile(context, DESIGN_TOKENS_SAMPLE),
-            ],
-          ),
-        ],
-      )
-    );
+        decoration: const BoxDecoration(
+            color: Colors.black,
+            border:
+                Border(bottom: BorderSide(width: 2.0, color: Colors.white))),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                mkListTile(context, BASIC_MIX),
+                mkListTile(context, BOX_SAMPLE),
+                mkListTile(context, FLEXBOX_SAMPLE),
+                mkListTile(context, ICONMIX_SAMPLE),
+                mkListTile(context, PRESSABLE_SAMPLE),
+                mkListTile(context, TEXTMIX_SAMPLE),
+                mkListTile(context, DESIGN_TOKENS_SAMPLE),
+              ],
+            ),
+          ],
+        ));
   }
 }
 
@@ -85,23 +76,59 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   String _sampleName = BASIC_MIX;
+  bool _showCode = false;
 
   Widget createSample() {
-    switch(_sampleName) {
-      case BASIC_MIX: return const BasicMix();
-      case BOX_SAMPLE: return const BoxSample();
-      case FLEXBOX_SAMPLE: return const FlexBoxSample();
-      case ICONMIX_SAMPLE: return const IconMixSample();
-      case PRESSABLE_SAMPLE: return const PressableSample();
-      case TEXTMIX_SAMPLE: return const TextMixSample();
-      case DESIGN_TOKENS_SAMPLE: return const DesignTokensSample();
+    switch (_sampleName) {
+      case BASIC_MIX:
+        return const BasicMix();
+      case BOX_SAMPLE:
+        return const BoxSample();
+      case FLEXBOX_SAMPLE:
+        return const FlexBoxSample();
+      case ICONMIX_SAMPLE:
+        return const IconMixSample();
+      case PRESSABLE_SAMPLE:
+        return const PressableSample();
+      case TEXTMIX_SAMPLE:
+        return const TextMixSample();
+      case DESIGN_TOKENS_SAMPLE:
+        return const DesignTokensSample();
     }
 
     return Container();
   }
 
+  Widget createCodeWidget() {
+    String snippet = const SampleCode().fetchCode(_sampleName);
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.orange[100],
+        border: Border.all(color: Colors.black26, width: 1.0)
+      ),
+      height: double.infinity,
+      child: EditableText(
+        readOnly: true,
+        backgroundCursorColor: Colors.transparent,
+        cursorColor: Colors.black,
+        focusNode: FocusNode(canRequestFocus: true),
+        style: const TextStyle(fontSize: 16.0, color: Colors.black,),
+        controller: TextEditingController(text: snippet),
+        selectionColor: Colors.black26,
+      ),
+    );
+  }
+
   void setSampleName(String val) {
-    setState(() => _sampleName = val);
+    setState(() {
+      _sampleName = val;
+      _showCode = false;
+    });
+  }
+
+  void setShowCode(bool flag) {
+    setState(() => _showCode = flag);
   }
 
   @override
@@ -114,47 +141,71 @@ class _MyAppState extends State<MyApp> {
             ),
       ),
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: PreferredSize(
-            preferredSize: const Size(double.infinity, 60.0),
+      home: SafeArea(
+        child: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size(double.infinity, 70.0),
             child: Container(
               decoration: const BoxDecoration(
                 color: Colors.blue,
-                boxShadow: [BoxShadow(color:Colors.black54,
-                                      offset: Offset(0.0, 2.0),
-                                      blurRadius: 8.0, 
-                                      spreadRadius: 4.0)]
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black54,
+                      offset: Offset(0.0, 2.0),
+                      blurRadius: 8.0,
+                      spreadRadius: 4.0)
+                ],
               ),
               height: 100.0,
               alignment: Alignment.center,
-              child: Text(_sampleName, 
-                          style: const TextStyle(color:Colors.white, fontSize:30.0)
-                         ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    flex: 2,
+                    fit: FlexFit.loose,
+                    child: Container(
+                      padding: const EdgeInsets.only(left: 12),
+                      alignment: Alignment.centerLeft,
+                      child: Text(_sampleName,
+                          style: const TextStyle(color: Colors.white, fontSize: 25.0)),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 1,
+                    fit: FlexFit.loose,
+                    child: Container(
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.only(right: 12),
+                      child: ElevatedButton(
+                        onPressed: () { setShowCode(!_showCode); },
+                        child: const Text("Code"),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-        ),
-        body: Center(
-          child: createSample(),
-        ),
-        bottomNavigationBar:
-          Container(
-            constraints: const BoxConstraints(maxHeight:40.0),
+          ),
+          body: Center(
+            child: _showCode? 
+                   createCodeWidget() :
+                   createSample(),
+          ),
+          bottomNavigationBar: Container(
+            constraints: const BoxConstraints(maxHeight: 40.0),
             color: Colors.black,
             alignment: Alignment.center,
             child: Builder(
-              builder: (BuildContext context) =>
-                TextButton(
-                onPressed: () {
-                  Scaffold.of(context).showBottomSheet(
-                    (buildContext) => SampleSelector(setSampleName));
-                },
-                child: const Text(
-                  "Choose Sample",
-                 style: TextStyle(color:Colors.white,
-                                  fontSize: 20.0)
-                )
-              )
-            ),
+                builder: (BuildContext context) => TextButton(
+                    onPressed: () {
+                      Scaffold.of(context).showBottomSheet(
+                          (buildContext) => SampleSelector(setSampleName));
+                    },
+                    child: const Text("Choose Sample",
+                        style: TextStyle(color: Colors.white, fontSize: 20.0)))),
           ),
+        ),
       ),
     );
   }
@@ -201,3 +252,5 @@ class _DynamicAppState extends State<DynamicApp> {
     );
   }
 }
+
+
