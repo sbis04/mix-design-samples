@@ -28,7 +28,7 @@ class SampleSelector extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: ListTile(
-              hoverColor: Theme.of(context).primaryColor,
+              hoverColor: Theme.of(context).colorScheme.primary,
               dense: true,
               title: Text(title,
                   style: const TextStyle(color: Colors.white70, fontSize: 16),
@@ -108,14 +108,17 @@ class _MyAppState extends State<MyApp> {
         border: Border.all(color: Colors.black26, width: 1.0)
       ),
       height: double.infinity,
-      child: EditableText(
-        readOnly: true,
-        backgroundCursorColor: Colors.transparent,
-        cursorColor: Colors.black,
-        focusNode: FocusNode(canRequestFocus: true),
-        style: const TextStyle(fontSize: 16.0, color: Colors.black,),
-        controller: TextEditingController(text: snippet),
-        selectionColor: Colors.black26,
+      child: Material(
+        color: Colors.transparent,
+        child: TextField(
+          keyboardType: TextInputType.multiline,
+          decoration: null,
+          minLines: 2,
+          maxLines: 1000,
+          readOnly: true,
+          style: const TextStyle(fontSize: 16.0, color: Colors.black,),
+          controller: TextEditingController(text: snippet),
+        ),
       ),
     );
   }
@@ -137,54 +140,60 @@ class _MyAppState extends State<MyApp> {
       title: 'MIX Samples',
       theme: ThemeData(
         colorScheme: ThemeData.light().colorScheme.copyWith(
-              primary: Colors.orange,
+              primary: Colors.blue,
             ),
+        elevatedButtonTheme: ElevatedButtonThemeData(style:
+          ElevatedButton.styleFrom(primary: Colors.orange)),
       ),
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size(double.infinity, 70.0),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.blue,
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black54,
-                      offset: Offset(0.0, 2.0),
-                      blurRadius: 8.0,
-                      spreadRadius: 4.0)
-                ],
-              ),
-              height: 100.0,
-              alignment: Alignment.center,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    flex: 2,
-                    fit: FlexFit.loose,
-                    child: Container(
-                      padding: const EdgeInsets.only(left: 12),
-                      alignment: Alignment.centerLeft,
-                      child: Text(_sampleName,
-                          style: const TextStyle(color: Colors.white, fontSize: 25.0)),
-                    ),
+            child: Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 8.0,
+                          spreadRadius: 4.0)
+                    ],
                   ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.loose,
-                    child: Container(
-                      alignment: Alignment.centerRight,
-                      padding: const EdgeInsets.only(right: 12),
-                      child: ElevatedButton(
-                        onPressed: () { setShowCode(!_showCode); },
-                        child: const Text("Code"),
+                  height: 100.0,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.loose,
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 12),
+                          alignment: Alignment.centerLeft,
+                          child: Text(_sampleName,
+                              style: const TextStyle(color: Colors.white, fontSize: 25.0)),
+                        ),
                       ),
-                    ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.loose,
+                        child: Container(
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 12),
+                          child: ElevatedButton(
+                            onPressed: () { setShowCode(!_showCode); },
+                            child: const Text("Code"),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                );
+              }
             ),
           ),
           body: Center(
