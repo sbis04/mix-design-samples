@@ -6,6 +6,7 @@ const String
   FLEXBOX_SAMPLE = "Flexbox Sample",
   ICONMIX_SAMPLE = "IconMix Sample",
   PRESSABLE_SAMPLE = "Pressable Sample",
+  ANIMATED_PRESSABLE_SAMPLE = "Animated Pressable Sample",
   TEXTMIX_SAMPLE = "TextMix Sample",
   DESIGN_TOKENS_SAMPLE = "Design Tokens Sample";
 
@@ -132,6 +133,34 @@ class BasicMix extends StatelessWidget {
       );
     }
   }
+''',
+  ANIMATED_PRESSABLE_SAMPLE:
+'''
+Mix get animPressableMix => Mix(
+      elevation(8),
+      padding(20),
+      rounded(30),
+      bgColor(Colors.greenAccent),
+      animated(),
+      scale(1),
+      press(
+        scale(0.9),
+        elevation(1),
+      ),
+    );
+
+class AnimatedPressableSample extends StatelessWidget {
+  const AnimatedPressableSample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Pressable(
+      onPressed: () {},
+      mix: animPressableMix,
+      child: const TextMix('Animated Button'),
+    );
+  }
+}
 ''',
   TEXTMIX_SAMPLE:
 '''

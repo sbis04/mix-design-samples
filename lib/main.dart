@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mix_design_samples/sample_code.dart';
-import 'package:mix/mix.dart';
 import 'package:mix_design_samples/widgets/dynamic/dynamic_mix.dart';
 
 import 'widgets/animated/animated_pressable_sample.dart';
@@ -58,6 +57,7 @@ class SampleSelector extends StatelessWidget {
                 mkListTile(context, FLEXBOX_SAMPLE),
                 mkListTile(context, ICONMIX_SAMPLE),
                 mkListTile(context, PRESSABLE_SAMPLE),
+                mkListTile(context, ANIMATED_PRESSABLE_SAMPLE),
                 mkListTile(context, TEXTMIX_SAMPLE),
                 mkListTile(context, DESIGN_TOKENS_SAMPLE),
               ],
@@ -90,6 +90,8 @@ class _MyAppState extends State<MyApp> {
         return const IconMixSample();
       case PRESSABLE_SAMPLE:
         return const PressableSample();
+      case ANIMATED_PRESSABLE_SAMPLE:
+        return const AnimatedPressableSample();
       case TEXTMIX_SAMPLE:
         return const TextMixSample();
       case DESIGN_TOKENS_SAMPLE:
@@ -220,6 +222,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+/*
 bool isDarkMode = false;
 
 class DynamicApp extends StatefulWidget {
@@ -261,5 +264,6 @@ class _DynamicAppState extends State<DynamicApp> {
     );
   }
 }
+*/
 
 
