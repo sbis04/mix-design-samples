@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
 
-const myStyle = Var('myStyle');
+const myStyle = Variant('myStyle');
 
 Mix get style => Mix(
       titleCase(),
