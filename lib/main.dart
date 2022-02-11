@@ -60,6 +60,8 @@ class SampleSelector extends StatelessWidget {
                 mkListTile(context, ANIMATED_PRESSABLE_SAMPLE),
                 mkListTile(context, TEXTMIX_SAMPLE),
                 mkListTile(context, DESIGN_TOKENS_SAMPLE),
+                const Divider(),
+                mkListTile(context, DYNAMIC_SAMPLE)
               ],
             ),
           ],
@@ -77,6 +79,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   String _sampleName = BASIC_MIX;
   bool _showCode = false;
+  bool _isDarkMode = false;
+  bool _allowDarkMode = false;
 
   Widget createSample() {
     switch (_sampleName) {
@@ -96,6 +100,9 @@ class _MyAppState extends State<MyApp> {
         return const TextMixSample();
       case DESIGN_TOKENS_SAMPLE:
         return const DesignTokensSample();
+      case DYNAMIC_SAMPLE:
+        _allowDarkMode = true;
+        return const DynamicBoxSample();
     }
 
     return Container();
@@ -138,6 +145,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    _allowDarkMode = false;
+
     return MaterialApp(
       title: 'MIX Samples',
       theme: ThemeData(
@@ -147,6 +156,12 @@ class _MyAppState extends State<MyApp> {
         elevatedButtonTheme: ElevatedButtonThemeData(style:
           ElevatedButton.styleFrom(primary: Colors.orange)),
       ),
+      darkTheme: ThemeData(
+                  colorScheme: ThemeData.dark().colorScheme.copyWith(),
+                  elevatedButtonTheme: ElevatedButtonThemeData(style:
+                    ElevatedButton.styleFrom(primary: Colors.black87))
+                  ),
+      themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
@@ -183,13 +198,28 @@ class _MyAppState extends State<MyApp> {
                       Flexible(
                         flex: 1,
                         fit: FlexFit.loose,
-                        child: Container(
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 12),
-                          child: ElevatedButton(
-                            onPressed: () { setShowCode(!_showCode); },
-                            child: const Text("Code"),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (_allowDarkMode)
+                              ElevatedButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isDarkMode = !_isDarkMode;
+                                  });
+                                },
+                                child: Icon(Icons.dark_mode,
+                                                  color: _isDarkMode?
+                                                    Colors.white : Colors.black
+                                            )
+                              ),
+                            const SizedBox(width:10),
+                            ElevatedButton(
+                              onPressed: () { setShowCode(!_showCode); },
+                              child: const Text("Code"),
+                            ),
+                            const SizedBox(width:20)
+                          ],
                         ),
                       ),
                     ],

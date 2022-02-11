@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 const String
   BASIC_MIX = "Basic Mix",
   BOX_SAMPLE = "Box Sample",
@@ -8,7 +6,8 @@ const String
   PRESSABLE_SAMPLE = "Pressable Sample",
   ANIMATED_PRESSABLE_SAMPLE = "Animated Pressable Sample",
   TEXTMIX_SAMPLE = "TextMix Sample",
-  DESIGN_TOKENS_SAMPLE = "Design Tokens Sample";
+  DESIGN_TOKENS_SAMPLE = "Design Tokens Sample",
+  DYNAMIC_SAMPLE = "Dynamic Sample";
 
 class SampleCode {
   const SampleCode();
@@ -200,6 +199,37 @@ class DesignTokensSample extends StatelessWidget {
   Widget build(BuildContext context) {
     return Box(
       mix: basicMix,
+    );
+  }
+}
+''',
+  DYNAMIC_SAMPLE:
+'''
+Mix get dynamicMix => Mix(
+      height(150),
+      width(150),
+      rounded(20),
+      elevation(8),
+      bgColor(Colors.green),
+      border(
+        color: Colors.green.shade800,
+        width: 8,
+      ),
+      dark(
+        bgColor(Colors.grey),
+        border(
+          color: Colors.white,
+        ),
+      ),
+    );
+
+class DynamicBoxSample extends StatelessWidget {
+  const DynamicBoxSample({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Box(
+      mix: dynamicMix,
     );
   }
 }
