@@ -11,6 +11,9 @@ import 'widgets/basics/icon_mix_sample.dart';
 import 'widgets/basics/pressable_sample.dart';
 import 'widgets/basics/text_mix_sample.dart';
 
+import 'widgets/others/custom_variant_text_mix.dart';
+import 'widgets/others/inbuilt_variant_mix.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -64,7 +67,9 @@ class SampleSelector extends StatelessWidget {
                 mkListTile(context, ANIMATED_PRESSABLE_SAMPLE),
                 mkListTile(context, TEXTMIX_SAMPLE),
                 mkListTile(context, DESIGN_TOKENS_SAMPLE, true),
-                mkListTile(context, DYNAMIC_SAMPLE)
+                mkListTile(context, DYNAMIC_SAMPLE, true),
+                mkListTile(context, CUSTOM_VARIANT_TEXTMIX_SAMPLE),
+                mkListTile(context, INBUILT_VARIANT_MIX_SAMPLE)
               ],
             ),
           ],
@@ -106,6 +111,10 @@ class _MyAppState extends State<MyApp> {
       case DYNAMIC_SAMPLE:
         _allowDarkMode = true;
         return const DynamicBoxSample();
+      case CUSTOM_VARIANT_TEXTMIX_SAMPLE:
+        return const VariantTextMix();
+      case INBUILT_VARIANT_MIX_SAMPLE:
+        return const VariantMix();
     }
 
     return Container();
