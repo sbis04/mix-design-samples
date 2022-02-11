@@ -9,7 +9,7 @@ const String
   DESIGN_TOKENS_SAMPLE = "Design Tokens Sample",
   DYNAMIC_SAMPLE = "Dynamic Sample",
   CUSTOM_VARIANT_TEXTMIX_SAMPLE = "Custom Variant Text Mix Sample",
-  INBUILT_VARIANT_MIX_SAMPLE = "Inbuilt Variant Text Mix Sample";
+  INBUILT_VARIANT_MIX_SAMPLE = "Inbuilt Variant Mix Sample";
 
 class SampleCode {
   const SampleCode();
