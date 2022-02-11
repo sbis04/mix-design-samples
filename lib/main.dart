@@ -20,10 +20,14 @@ typedef SampleSelectorFunc = void Function(String sampleName);
 class SampleSelector extends StatelessWidget {
   final SampleSelectorFunc fn;
   const SampleSelector(this.fn, {Key? key}) : super(key: key);
-  Widget mkListTile(BuildContext context, String title) => Container(
-        decoration: const BoxDecoration(
+  Widget mkListTile(BuildContext context, String title,
+                    [bool separate = false]) => Container(
+        decoration: BoxDecoration(
             border:
-                Border(bottom: BorderSide(color: Colors.white38, width: 1.0))),
+                Border(bottom: BorderSide(
+                  color: separate?
+                    Theme.of(context).colorScheme.primary : Colors.white38, 
+                  width: separate? 2.0 : 1.0))),
         child: Material(
           color: Colors.transparent,
           child: ListTile(
@@ -59,8 +63,7 @@ class SampleSelector extends StatelessWidget {
                 mkListTile(context, PRESSABLE_SAMPLE),
                 mkListTile(context, ANIMATED_PRESSABLE_SAMPLE),
                 mkListTile(context, TEXTMIX_SAMPLE),
-                mkListTile(context, DESIGN_TOKENS_SAMPLE),
-                const Divider(),
+                mkListTile(context, DESIGN_TOKENS_SAMPLE, true),
                 mkListTile(context, DYNAMIC_SAMPLE)
               ],
             ),
