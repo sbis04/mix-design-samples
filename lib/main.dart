@@ -103,7 +103,9 @@ class _MyAppState extends State<MyApp> {
     if (_bsCtlr != null) {
       _bsCtlr!.close();
     }
-    _bsTimer = null;
+    setState(() {
+      _bsTimer = null;
+    });
   }
 
   Widget createSample() {
@@ -163,6 +165,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   void setSampleName(String val) {
+    closeBSCtlr();
     setState(() {
       _sampleName = val;
       _showCode = false;
@@ -193,115 +196,120 @@ class _MyAppState extends State<MyApp> {
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: SafeArea(
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize: const Size(double.infinity, 70.0),
-            child: Builder(builder: (BuildContext context) {
-              return Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  boxShadow: const [
-                    BoxShadow(
-                        color: Colors.black54,
-                        offset: Offset(0.0, 2.0),
-                        blurRadius: 8.0,
-                        spreadRadius: 4.0)
-                  ],
-                ),
-                height: 100.0,
-                alignment: Alignment.center,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 2,
-                      fit: FlexFit.loose,
-                      child: Container(
-                        padding: const EdgeInsets.only(left: 12),
-                        alignment: Alignment.centerLeft,
-                        child: Text(_sampleName,
-                            style: const TextStyle(
-                                color: Colors.white, fontSize: 25.0)),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.loose,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          if (_allowDarkMode)
-                            ElevatedButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isDarkMode = !_isDarkMode;
-                                  });
-                                },
-                                child: Icon(Icons.dark_mode,
-                                    color: _isDarkMode
-                                        ? Colors.white
-                                        : Colors.black)),
-                          const SizedBox(width: 10),
-                          ElevatedButton(
-                            onPressed: () {
-                              setShowCode(!_showCode);
-                            },
-                            child: const Text("Code"),
-                          ),
-                          const SizedBox(width: 20)
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ),
-          body: Center(
-            child: _showCode ? createCodeWidget() : createSample(),
-          ),
-          bottomNavigationBar: SizedBox(
-            width: double.infinity,
-            height: 40.0,
-            child: Box(
-              mix: Mix(
-                bgColor(Colors.black),
-                align(Alignment.center),
-              ),
-              /*
-            child: Container(
-              color: Colors.black,
-              alignment: Alignment.center,
-            */
-              child: Builder(
-                builder: (BuildContext context) => Pressable(
-                  mix:Mix(
-                    animated(),
-                    hover(
-                      scale(1.2),
-                      textColor(Colors.yellow),
-                    )
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: closeBSCtlr,
+          child: Scaffold(
+            appBar: PreferredSize(
+              preferredSize: const Size(double.infinity, 70.0),
+              child: Builder(builder: (BuildContext context) {
+                return Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black54,
+                          offset: Offset(0.0, 2.0),
+                          blurRadius: 8.0,
+                          spreadRadius: 4.0)
+                    ],
                   ),
-                  onPressed: () async {
-                    if (_bsTimer == null) {
-                      _bsTimer = Timer(const Duration(seconds: 10), () async {
+                  height: 100.0,
+                  alignment: Alignment.center,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.loose,
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 12),
+                          alignment: Alignment.centerLeft,
+                          child: Text(_sampleName,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 25.0)),
+                        ),
+                      ),
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.loose,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            if (_allowDarkMode)
+                              ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isDarkMode = !_isDarkMode;
+                                    });
+                                  },
+                                  child: Icon(Icons.dark_mode,
+                                      color: _isDarkMode
+                                          ? Colors.white
+                                          : Colors.black)),
+                            const SizedBox(width: 10),
+                            ElevatedButton(
+                              onPressed: _bsTimer == null? 
+                                () { setShowCode(!_showCode); } : null,
+                              child: const Text("Code"),
+                            ),
+                            const SizedBox(width: 20)
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+            body: Center(
+              child: _showCode ? createCodeWidget() : createSample(),
+            ),
+            bottomNavigationBar: SizedBox(
+              width: double.infinity,
+              height: 40.0,
+              child: Box(
+                mix: Mix(
+                  bgColor(Colors.black),
+                  align(Alignment.center),
+                ),
+                /*
+              child: Container(
+                color: Colors.black,
+                alignment: Alignment.center,
+              */
+                child: Builder(
+                  builder: (BuildContext context) => Pressable(
+                    mix:Mix(
+                      animated(),
+                      hover(
+                        scale(1.2),
+                        textColor(Colors.yellow),
+                      )
+                    ),
+                    onPressed: () async {
+                      if (_bsTimer == null) {
+                        setState(() {
+                          _bsTimer = Timer(const Duration(seconds: 10), () async {
+                            await closeBSCtlr();
+                          });
+                        });
+                        _bsCtlr = Scaffold.of(context).showBottomSheet(
+                          (buildContext) => SampleSelector(setSampleName)
+                        );
+                      }
+                      else {
                         await closeBSCtlr();
-                      });
-                      _bsCtlr = Scaffold.of(context).showBottomSheet(
-                        (buildContext) => SampleSelector(setSampleName)
-                      );
-                    }
-                    else {
-                      await closeBSCtlr();
-                    }
-                  },
-                  child: MouseRegion(
-                    cursor: SystemMouseCursors.click,
-                    child: TextMix(
-                      "Choose Sample",
-                      mix: Mix(
-                        textColor(Colors.white),
-                        fontSize(20.0),
+                      }
+                    },
+                    child: MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: TextMix(
+                        "Choose Sample",
+                        mix: Mix(
+                          textColor(Colors.white),
+                          fontSize(20.0),
+                        ),
                       ),
                     ),
                   ),
