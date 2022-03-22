@@ -238,11 +238,11 @@ class _MyAppState extends State<MyApp> {
                           children: [
                             if (_allowDarkMode)
                               ElevatedButton(
-                                  onPressed: () {
+                                  onPressed: _bsTimer == null? () {
                                     setState(() {
                                       _isDarkMode = !_isDarkMode;
                                     });
-                                  },
+                                  } : null,
                                   child: Icon(Icons.dark_mode,
                                       color: _isDarkMode
                                           ? Colors.white
