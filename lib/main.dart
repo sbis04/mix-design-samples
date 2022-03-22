@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'package:mix/mix.dart';
 import 'package:mix_design_samples/sample_code.dart';
 import 'package:mix_design_samples/widgets/dynamic/dynamic_mix.dart';
 
@@ -24,13 +26,15 @@ class SampleSelector extends StatelessWidget {
   final SampleSelectorFunc fn;
   const SampleSelector(this.fn, {Key? key}) : super(key: key);
   Widget mkListTile(BuildContext context, String title,
-                    [bool separate = false]) => Container(
+          [bool separate = false]) =>
+      Container(
         decoration: BoxDecoration(
-            border:
-                Border(bottom: BorderSide(
-                  color: separate?
-                    Theme.of(context).colorScheme.primary : Colors.white38, 
-                  width: separate? 2.0 : 1.0))),
+            border: Border(
+                bottom: BorderSide(
+                    color: separate
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.white38,
+                    width: separate ? 2.0 : 1.0))),
         child: Material(
           color: Colors.transparent,
           child: ListTile(
@@ -89,6 +93,18 @@ class _MyAppState extends State<MyApp> {
   bool _showCode = false;
   bool _isDarkMode = false;
   bool _allowDarkMode = false;
+  PersistentBottomSheetController? _bsCtlr;
+  Timer? _bsTimer;
+
+  Future<void> closeBSCtlr() async {
+    if (_bsTimer != null && _bsTimer!.isActive) {
+      _bsTimer!.cancel();
+    }
+    if (_bsCtlr != null) {
+      _bsCtlr!.close();
+    }
+    _bsTimer = null;
+  }
 
   Widget createSample() {
     switch (_sampleName) {
@@ -125,9 +141,8 @@ class _MyAppState extends State<MyApp> {
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.orange[100],
-        border: Border.all(color: Colors.black26, width: 1.0)
-      ),
+          color: Colors.orange[100],
+          border: Border.all(color: Colors.black26, width: 1.0)),
       height: double.infinity,
       child: Material(
         color: Colors.transparent,
@@ -137,7 +152,10 @@ class _MyAppState extends State<MyApp> {
           minLines: 2,
           maxLines: 1000,
           readOnly: true,
-          style: const TextStyle(fontSize: 16.0, color: Colors.black,),
+          style: const TextStyle(
+            fontSize: 16.0,
+            color: Colors.black,
+          ),
           controller: TextEditingController(text: snippet),
         ),
       ),
@@ -165,147 +183,134 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ThemeData.light().colorScheme.copyWith(
               primary: Colors.blue,
             ),
-        elevatedButtonTheme: ElevatedButtonThemeData(style:
-          ElevatedButton.styleFrom(primary: Colors.orange)),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(primary: Colors.orange)),
       ),
       darkTheme: ThemeData(
-                  colorScheme: ThemeData.dark().colorScheme.copyWith(),
-                  elevatedButtonTheme: ElevatedButtonThemeData(style:
-                    ElevatedButton.styleFrom(primary: Colors.black87))
-                  ),
+          colorScheme: ThemeData.dark().colorScheme.copyWith(),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+              style: ElevatedButton.styleFrom(primary: Colors.black87))),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: SafeArea(
         child: Scaffold(
           appBar: PreferredSize(
             preferredSize: const Size(double.infinity, 70.0),
-            child: Builder(
-              builder: (BuildContext context) {
-                return Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    boxShadow: const [
-                      BoxShadow(
-                          color: Colors.black54,
-                          offset: Offset(0.0, 2.0),
-                          blurRadius: 8.0,
-                          spreadRadius: 4.0)
-                    ],
-                  ),
-                  height: 100.0,
-                  alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.loose,
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 12),
-                          alignment: Alignment.centerLeft,
-                          child: Text(_sampleName,
-                              style: const TextStyle(color: Colors.white, fontSize: 25.0)),
-                        ),
+            child: Builder(builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                  boxShadow: const [
+                    BoxShadow(
+                        color: Colors.black54,
+                        offset: Offset(0.0, 2.0),
+                        blurRadius: 8.0,
+                        spreadRadius: 4.0)
+                  ],
+                ),
+                height: 100.0,
+                alignment: Alignment.center,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Flexible(
+                      flex: 2,
+                      fit: FlexFit.loose,
+                      child: Container(
+                        padding: const EdgeInsets.only(left: 12),
+                        alignment: Alignment.centerLeft,
+                        child: Text(_sampleName,
+                            style: const TextStyle(
+                                color: Colors.white, fontSize: 25.0)),
                       ),
-                      Flexible(
-                        flex: 1,
-                        fit: FlexFit.loose,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            if (_allowDarkMode)
-                              ElevatedButton(
+                    ),
+                    Flexible(
+                      flex: 1,
+                      fit: FlexFit.loose,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          if (_allowDarkMode)
+                            ElevatedButton(
                                 onPressed: () {
                                   setState(() {
                                     _isDarkMode = !_isDarkMode;
                                   });
                                 },
                                 child: Icon(Icons.dark_mode,
-                                                  color: _isDarkMode?
-                                                    Colors.white : Colors.black
-                                            )
-                              ),
-                            const SizedBox(width:10),
-                            ElevatedButton(
-                              onPressed: () { setShowCode(!_showCode); },
-                              child: const Text("Code"),
-                            ),
-                            const SizedBox(width:20)
-                          ],
-                        ),
+                                    color: _isDarkMode
+                                        ? Colors.white
+                                        : Colors.black)),
+                          const SizedBox(width: 10),
+                          ElevatedButton(
+                            onPressed: () {
+                              setShowCode(!_showCode);
+                            },
+                            child: const Text("Code"),
+                          ),
+                          const SizedBox(width: 20)
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              }
-            ),
+                    ),
+                  ],
+                ),
+              );
+            }),
           ),
           body: Center(
-            child: _showCode? 
-                   createCodeWidget() :
-                   createSample(),
+            child: _showCode ? createCodeWidget() : createSample(),
           ),
-          bottomNavigationBar: Container(
-            constraints: const BoxConstraints(maxHeight: 40.0),
-            color: Colors.black,
-            alignment: Alignment.center,
-            child: Builder(
-                builder: (BuildContext context) => TextButton(
-                    onPressed: () {
-                      Scaffold.of(context).showBottomSheet(
-                          (buildContext) => SampleSelector(setSampleName));
-                    },
-                    child: const Text("Choose Sample",
-                        style: TextStyle(color: Colors.white, fontSize: 20.0)))),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/*
-bool isDarkMode = false;
-
-class DynamicApp extends StatefulWidget {
-  const DynamicApp({Key? key}) : super(key: key);
-
-  @override
-  State<DynamicApp> createState() => _DynamicAppState();
-}
-
-class _DynamicAppState extends State<DynamicApp> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'MIX Dynamic',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      darkTheme: ThemeData.dark(),
-      themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-      home: Scaffold(
-        body: Stack(
-          children: [
-            const Center(
-              child: DynamicBoxSample(),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isDarkMode = !isDarkMode;
-                  });
-                },
-                icon: const Icon(Icons.dark_mode),
+          bottomNavigationBar: SizedBox(
+            width: double.infinity,
+            height: 40.0,
+            child: Box(
+              mix: Mix(
+                bgColor(Colors.black),
+                align(Alignment.center),
               ),
-            )
-          ],
+              /*
+            child: Container(
+              color: Colors.black,
+              alignment: Alignment.center,
+            */
+              child: Builder(
+                builder: (BuildContext context) => Pressable(
+                  mix:Mix(
+                    animated(),
+                    hover(
+                      scale(1.2),
+                      textColor(Colors.yellow),
+                    )
+                  ),
+                  onPressed: () async {
+                    if (_bsTimer == null) {
+                      _bsTimer = Timer(const Duration(seconds: 10), () async {
+                        await closeBSCtlr();
+                      });
+                      _bsCtlr = Scaffold.of(context).showBottomSheet(
+                        (buildContext) => SampleSelector(setSampleName)
+                      );
+                    }
+                    else {
+                      await closeBSCtlr();
+                    }
+                  },
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: TextMix(
+                      "Choose Sample",
+                      mix: Mix(
+                        textColor(Colors.white),
+                        fontSize(20.0),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
       ),
     );
   }
 }
-*/
-
-
