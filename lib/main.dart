@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:mix/mix.dart';
 import 'package:mix_design_samples/sample_code.dart';
+import 'header_buttons.dart';
+
 import 'package:mix_design_samples/widgets/dynamic/dynamic_mix.dart';
 
 import 'widgets/animated/animated_pressable_sample.dart';
@@ -252,10 +254,10 @@ class _MyAppState extends State<MyApp> {
                                           ? Colors.white
                                           : Colors.black)),
                             const SizedBox(width: 10),
-                            ElevatedButton(
+                            HeaderButton(
+                              label: "Code",
                               onPressed: _bsTimer == null? 
                                 () { setShowCode(!_showCode); } : null,
-                              child: const Text("Code"),
                             ),
                             const SizedBox(width: 20)
                           ],
@@ -292,6 +294,7 @@ class _MyAppState extends State<MyApp> {
                         scale(1.2),
 //                        textColor($tertiary),
                           textColor(highlight)
+                          // TODO: Not working anymore - figure it out.
                       )
                     ),
                     onPressed: () async {
