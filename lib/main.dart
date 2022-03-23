@@ -180,12 +180,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     _allowDarkMode = false;
 
+    ColorScheme currentScheme = ThemeData.light().colorScheme;
+    ColorScheme newScheme = currentScheme.copyWith(
+      primary: Colors.blue,
+      tertiary: Colors.orange
+    );
+
     return MaterialApp(
       title: 'MIX Samples',
       theme: ThemeData(
-        colorScheme: ThemeData.light().colorScheme.copyWith(
-              primary: Colors.blue,
-            ),
+        colorScheme: newScheme,
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(primary: Colors.orange)),
       ),
@@ -279,12 +283,15 @@ class _MyAppState extends State<MyApp> {
                 alignment: Alignment.center,
               */
                 child: Builder(
-                  builder: (BuildContext context) => Pressable(
+                  builder: (BuildContext context) {
+                    var highlight = $tertiary;
+                    return Pressable(
                     mix:Mix(
                       animated(),
                       hover(
                         scale(1.2),
-                        textColor(Colors.yellow),
+//                        textColor($tertiary),
+                          textColor(highlight)
                       )
                     ),
                     onPressed: () async {
@@ -312,7 +319,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                     ),
-                  ),
+                  );},
                 ),
               ),
             ),
