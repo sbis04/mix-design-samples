@@ -30,41 +30,41 @@ class SampleSelector extends StatelessWidget {
   Widget mkListTile(BuildContext context, String title,
           [bool separate = false]) =>
       Pressable(
-        onPressed: () {
-                Navigator.pop(context);
-                fn(title);
-              },
-        mix: Mix(
-          bgColor(Colors.black),
-          textColor(Colors.white70),
-          paddingVertical(5),
-          align(Alignment.center),
-          fontSize(18),
-          border(
-            asBorder: Border(
-            bottom: BorderSide(
-                    color: separate
-                        ? $primary
-                        : Colors.white38,
-                    width: separate ? 2.0 : 1.0),
-                    ),
-                  ),
-          hover(
-            bgColor($primary)
-          )
-        ),
-        child: TextMix(title)
-      );
+          onPressed: () {
+            Navigator.pop(context);
+            fn(title);
+          },
+          mix: Mix(
+              bgColor(Colors.black),
+              textColor(Colors.white70),
+              paddingVertical(5),
+              align(Alignment.center),
+              fontSize(18),
+              border(
+                asBorder: Border(
+                  bottom: BorderSide(
+                      color: separate ? $primary : Colors.white38,
+                      width: separate ? 2.0 : 1.0),
+                ),
+              ),
+              hover(bgColor($primary))),
+          child: TextMix(title));
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        decoration: const BoxDecoration(
-            color: Colors.black,
-            border:
-                Border(bottom: BorderSide(width: 2.0, color: Colors.white))),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return Box(
+        mix: Mix(
+          bgColor(Colors.black),
+          border(
+            asBorder: const Border(
+              bottom: BorderSide(width: 2.0, color: Colors.white),
+            ),
+          ),
+        ),
+        child: VBox(
+          mix: Mix(
+            mainAxisSize(MainAxisSize.min)
+          ),
           children: [
             ListView(
               shrinkWrap: true,
