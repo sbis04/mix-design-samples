@@ -230,10 +230,10 @@ class _MyAppState extends State<MyApp> {
                           flexFit(FlexFit.loose),
                           paddingInsets(const EdgeInsets.only(left: 12)),
                           align(Alignment.centerLeft),
+                          textColor(Colors.white),
+                          fontSize(25.0)
                         ),
-                        child: Text(_sampleName,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 25.0)),
+                        child: TextMix(_sampleName),
                       ),
                       Box(
                         mix: Mix(
