@@ -220,19 +220,18 @@ class _MyAppState extends State<MyApp> {
                   height: 100.0,
                   alignment: Alignment.center,
                   child: HBox(
-                      mix: Mix(
+                    mix: Mix(
                       mainAxis(MainAxisAlignment.spaceBetween),
                     ),
                     children: [
                       Box(
                         mix: Mix(
-                          flex(3),
-                          flexFit(FlexFit.loose),
-                          paddingInsets(const EdgeInsets.only(left: 12)),
-                          align(Alignment.centerLeft),
-                          textColor(Colors.white),
-                          fontSize(25.0)
-                        ),
+                            flex(3),
+                            flexFit(FlexFit.loose),
+                            paddingInsets(const EdgeInsets.only(left: 12)),
+                            align(Alignment.centerLeft),
+                            textColor(Colors.white),
+                            fontSize(25.0)),
                         child: TextMix(_sampleName),
                       ),
                       Box(
@@ -274,8 +273,8 @@ class _MyAppState extends State<MyApp> {
                 );
               }),
             ),
-            body: _showCode ? createCodeWidget() : 
-              Center(child: createSample()),
+            body:
+                _showCode ? createCodeWidget() : Center(child: createSample()),
             bottomNavigationBar: SizedBox(
               width: double.infinity,
               height: 40.0,
@@ -286,17 +285,15 @@ class _MyAppState extends State<MyApp> {
                 ),
                 child: Builder(
                   builder: (BuildContext context) {
-                    var highlight = $tertiary;
                     return Pressable(
                       mix: Mix(
-                          animated(),
-                          fontSize(20),
-                          hover(
-                              scale(1.2),
-//                        textColor($tertiary),
-                              textColor(highlight)
-                              // TODO: Not working anymore - figure it out.
-                              )),
+                        animated(),
+                        fontSize(20),
+                        hover(
+                          scale(1.2),
+                          textColor($tertiary),
+                        ),
+                      ),
                       onPressed: () async {
                         if (_bsTimer == null) {
                           setState(() {
