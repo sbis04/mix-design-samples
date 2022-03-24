@@ -243,16 +243,14 @@ class _MyAppState extends State<MyApp> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             if (_allowDarkMode)
-                              ElevatedButton(
+                              HeaderButton(
                                   onPressed: _bsTimer == null? () {
                                     setState(() {
                                       _isDarkMode = !_isDarkMode;
                                     });
                                   } : null,
-                                  child: Icon(Icons.dark_mode,
-                                      color: _isDarkMode
-                                          ? Colors.white
-                                          : Colors.black)),
+                                  icon: const IconMix(Icons.dark_mode),
+                              ),
                             const SizedBox(width: 10),
                             HeaderButton(
                               label: "Code",

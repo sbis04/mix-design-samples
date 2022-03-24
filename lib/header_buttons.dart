@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mix/mix.dart';
+import 'custom_mix.dart';
 
 class HeaderButton extends StatelessWidget {
   final void Function()? onPressed;
-  final String label;
+  final String? label;
+  final IconMix? icon;
   final style = Mix(
     paddingHorizontal(12),
     paddingVertical(5),
@@ -13,20 +15,22 @@ class HeaderButton extends StatelessWidget {
     textStyle($button),
     textColor($onPrimary),
     fontSize(20),
-    disabled(
-      bgColor(Colors.grey),
-      textColor(Colors.black54),
-    ),
+    iconColor(Colors.white),
+    dark(
+      textColor(Colors.black),
+      iconColor(Colors.black)
+    )
   );
 
-  HeaderButton({Key? key, this.onPressed, required this.label}) : super(key: key);
+  HeaderButton({Key? key, this.onPressed, this.icon, this.label='Press Me'}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-      return Pressable(
+    
+    return Pressable(
       onPressed: onPressed,
-      mix: style,
-      child: TextMix(label),
+      mix: style.apply(disabledMix),
+      child: icon == null? TextMix(label!) : icon!,
     );
   }
 }
