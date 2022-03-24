@@ -189,6 +189,7 @@ class _MyAppState extends State<MyApp> {
             .colorScheme
             .copyWith(primary: Colors.blue, tertiary: Colors.orange),
       ),
+      darkTheme: ThemeData.dark(),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: SafeArea(
