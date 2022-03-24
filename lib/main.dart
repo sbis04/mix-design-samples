@@ -219,25 +219,31 @@ class _MyAppState extends State<MyApp> {
                   ),
                   height: 100.0,
                   alignment: Alignment.center,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: HBox(
+                      mix: Mix(
+                      mainAxis(MainAxisAlignment.spaceBetween),
+                    ),
                     children: [
-                      Flexible(
-                        flex: 3,
-                        fit: FlexFit.loose,
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 12),
-                          alignment: Alignment.centerLeft,
-                          child: Text(_sampleName,
+                      Box(
+                        mix: Mix(
+                          flex(3),
+                          flexFit(FlexFit.loose),
+                          paddingInsets(const EdgeInsets.only(left: 12)),
+                          align(Alignment.centerLeft),
+                        ),
+                        child: Text(_sampleName,
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 25.0)),
-                        ),
                       ),
-                      Flexible(
-                        flex: 2,
-                        fit: FlexFit.loose,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+                      Box(
+                        mix: Mix(
+                          flex(2),
+                          flexFit(FlexFit.loose),
+                        ),
+                        child: HBox(
+                          mix: Mix(
+                            mainAxis(MainAxisAlignment.end),
+                          ),
                           children: [
                             if (_allowDarkMode)
                               HeaderButton(
