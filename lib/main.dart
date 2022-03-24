@@ -62,9 +62,7 @@ class SampleSelector extends StatelessWidget {
           ),
         ),
         child: VBox(
-          mix: Mix(
-            mainAxisSize(MainAxisSize.min)
-          ),
+          mix: Mix(mainAxisSize(MainAxisSize.min)),
           children: [
             ListView(
               shrinkWrap: true,
@@ -146,12 +144,16 @@ class _MyAppState extends State<MyApp> {
 
   Widget createCodeWidget() {
     String snippet = const SampleCode().fetchCode(_sampleName);
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          color: Colors.orange[100],
-          border: Border.all(color: Colors.black26, width: 1.0)),
-      height: double.infinity,
+    return Box(
+      mix: Mix(
+        paddingInsets(
+          const EdgeInsets.only(top: 12, left: 12, right: 12, bottom: 0),
+        ),
+        bgColor(Colors.orange[100]!),
+        borderColor(Colors.black26),
+        borderWidth(1.0),
+        height(double.infinity),
+      ),
       child: Material(
         color: Colors.transparent,
         child: TextField(
@@ -266,9 +268,8 @@ class _MyAppState extends State<MyApp> {
                 );
               }),
             ),
-            body: Center(
-              child: _showCode ? createCodeWidget() : createSample(),
-            ),
+            body: _showCode ? createCodeWidget() : 
+              Center(child: createSample()),
             bottomNavigationBar: SizedBox(
               width: double.infinity,
               height: 40.0,
@@ -277,17 +278,13 @@ class _MyAppState extends State<MyApp> {
                   bgColor(Colors.black),
                   align(Alignment.center),
                 ),
-                /*
-              child: Container(
-                color: Colors.black,
-                alignment: Alignment.center,
-              */
                 child: Builder(
                   builder: (BuildContext context) {
                     var highlight = $tertiary;
                     return Pressable(
                       mix: Mix(
                           animated(),
+                          fontSize(20),
                           hover(
                               scale(1.2),
 //                        textColor($tertiary),
@@ -308,15 +305,9 @@ class _MyAppState extends State<MyApp> {
                           await closeBSCtlr();
                         }
                       },
-                      child: MouseRegion(
+                      child: const MouseRegion(
                         cursor: SystemMouseCursors.click,
-                        child: TextMix(
-                          "Choose Sample",
-                          mix: Mix(
-                            textColor(Colors.white),
-                            fontSize(20.0),
-                          ),
-                        ),
+                        child: TextMix("Choose Sample"),
                       ),
                     );
                   },
