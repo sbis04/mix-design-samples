@@ -223,7 +223,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Flexible(
-                        flex: 2,
+                        flex: 3,
                         fit: FlexFit.loose,
                         child: Container(
                           padding: const EdgeInsets.only(left: 12),
@@ -234,7 +234,7 @@ class _MyAppState extends State<MyApp> {
                         ),
                       ),
                       Flexible(
-                        flex: 1,
+                        flex: 2,
                         fit: FlexFit.loose,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.end,
