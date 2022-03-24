@@ -182,23 +182,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     _allowDarkMode = false;
 
-    ColorScheme currentScheme = ThemeData.light().colorScheme;
-    ColorScheme newScheme = currentScheme.copyWith(
-      primary: Colors.blue,
-      tertiary: Colors.orange
-    );
-
     return MaterialApp(
       title: 'MIX Samples',
       theme: ThemeData(
-        colorScheme: newScheme,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-            style: ElevatedButton.styleFrom(primary: Colors.orange)),
+        colorScheme: ThemeData.light()
+            .colorScheme
+            .copyWith(primary: Colors.blue, tertiary: Colors.orange),
       ),
-      darkTheme: ThemeData(
-          colorScheme: ThemeData.dark().colorScheme.copyWith(),
-          elevatedButtonTheme: ElevatedButtonThemeData(
-              style: ElevatedButton.styleFrom(primary: Colors.black87))),
       themeMode: _isDarkMode ? ThemeMode.dark : ThemeMode.light,
       debugShowCheckedModeBanner: false,
       home: SafeArea(
@@ -244,18 +234,23 @@ class _MyAppState extends State<MyApp> {
                           children: [
                             if (_allowDarkMode)
                               HeaderButton(
-                                  onPressed: _bsTimer == null? () {
-                                    setState(() {
-                                      _isDarkMode = !_isDarkMode;
-                                    });
-                                  } : null,
-                                  icon: const IconMix(Icons.dark_mode),
+                                onPressed: _bsTimer == null
+                                    ? () {
+                                        setState(() {
+                                          _isDarkMode = !_isDarkMode;
+                                        });
+                                      }
+                                    : null,
+                                icon: const IconMix(Icons.dark_mode),
                               ),
                             const SizedBox(width: 10),
                             HeaderButton(
                               label: "Code",
-                              onPressed: _bsTimer == null? 
-                                () { setShowCode(!_showCode); } : null,
+                              onPressed: _bsTimer == null
+                                  ? () {
+                                      setShowCode(!_showCode);
+                                    }
+                                  : null,
                             ),
                             const SizedBox(width: 20)
                           ],
@@ -286,41 +281,40 @@ class _MyAppState extends State<MyApp> {
                   builder: (BuildContext context) {
                     var highlight = $tertiary;
                     return Pressable(
-                    mix:Mix(
-                      animated(),
-                      hover(
-                        scale(1.2),
+                      mix: Mix(
+                          animated(),
+                          hover(
+                              scale(1.2),
 //                        textColor($tertiary),
-                          textColor(highlight)
-                          // TODO: Not working anymore - figure it out.
-                      )
-                    ),
-                    onPressed: () async {
-                      if (_bsTimer == null) {
-                        setState(() {
-                          _bsTimer = Timer(const Duration(seconds: 10), () async {
-                            await closeBSCtlr();
+                              textColor(highlight)
+                              // TODO: Not working anymore - figure it out.
+                              )),
+                      onPressed: () async {
+                        if (_bsTimer == null) {
+                          setState(() {
+                            _bsTimer =
+                                Timer(const Duration(seconds: 10), () async {
+                              await closeBSCtlr();
+                            });
                           });
-                        });
-                        _bsCtlr = Scaffold.of(context).showBottomSheet(
-                          (buildContext) => SampleSelector(setSampleName)
-                        );
-                      }
-                      else {
-                        await closeBSCtlr();
-                      }
-                    },
-                    child: MouseRegion(
-                      cursor: SystemMouseCursors.click,
-                      child: TextMix(
-                        "Choose Sample",
-                        mix: Mix(
-                          textColor(Colors.white),
-                          fontSize(20.0),
+                          _bsCtlr = Scaffold.of(context).showBottomSheet(
+                              (buildContext) => SampleSelector(setSampleName));
+                        } else {
+                          await closeBSCtlr();
+                        }
+                      },
+                      child: MouseRegion(
+                        cursor: SystemMouseCursors.click,
+                        child: TextMix(
+                          "Choose Sample",
+                          mix: Mix(
+                            textColor(Colors.white),
+                            fontSize(20.0),
+                          ),
                         ),
                       ),
-                    ),
-                  );},
+                    );
+                  },
                 ),
               ),
             ),
