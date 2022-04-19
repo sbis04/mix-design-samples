@@ -14,8 +14,8 @@ class IconMixSample extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconMix(
+      Icons.desktop_mac_outlined,
       mix: iconMix,
-      icon: Icons.desktop_mac_outlined,
     );
   }
 }

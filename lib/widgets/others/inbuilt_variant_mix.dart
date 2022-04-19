@@ -6,6 +6,7 @@ Mix get inbuiltVariantMix => Mix(
       elevation(8),
       width(100),
       height(50),
+      align(Alignment.center),
       bgColor(Colors.redAccent),
       border(
         color: Colors.redAccent,
@@ -29,7 +30,7 @@ class VariantMix extends StatelessWidget {
     return Pressable(
       mix: inbuiltVariantMix,
       onPressed: () {},
-      child: const Box(),
+      child: const TextMix("Press Me"),
     );
   }
 }
